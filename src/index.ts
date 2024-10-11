@@ -3,7 +3,7 @@ import cors, { CorsOptions } from "cors";
 import dotenv from "dotenv";
 import connectToDatabase from "./db/mongodb";
 import authRouter from "./router/authRouter";
-
+import cookieParser from "cookie-parser";
 //For being able to read env files.
 dotenv.config();
 
@@ -13,6 +13,9 @@ const PORT = process.env.PORT || 3000;
 
 //For being able to read json files.
 app.use(express.json());
+
+//For reading cookies
+app.use(cookieParser());
 
 //for added security to avoid cross site attacks.
 const corsOptions: CorsOptions = {

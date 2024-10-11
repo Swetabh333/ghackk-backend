@@ -3,6 +3,7 @@ import User from "../schema/userSchema";
 import bcrypt from "bcryptjs";
 import { check, validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
+import authMiddleware from "../middleware/auth";
 
 //This router will be used for authentication i.e. signup and login.
 const router: Router = express.Router();
@@ -84,5 +85,8 @@ router.post("/login", async (req: Request, res: Response) => {
 });
 
 // This endpoint is to check if a user is already logged in
+router.get("/verify", authMiddleware, (req, res) => {
+  res.send("verified");
+});
 
 export default router;
