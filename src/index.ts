@@ -40,13 +40,6 @@ app.use("/auth", authRouter);
 //This function is to ensure the database connection happens before the server starts listening
 const startServer = async () => {
   await connectToDatabase();
-  await webToon.create({
-    Name: "wt1",
-    Genre: "g1",
-    Creator: "c1",
-    img_url: "i1",
-    short_description: "...",
-  });
   app.listen(PORT, () => {
     console.log(`Server listening on port: ${PORT}`);
   });
