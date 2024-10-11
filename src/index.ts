@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import connectToDatabase from "./db/mongodb";
 import authRouter from "./router/authRouter";
 import cookieParser from "cookie-parser";
+import webToon from "./schema/webtoonSchema";
+
 //For being able to read env files.
 dotenv.config();
 
@@ -38,7 +40,13 @@ app.use("/auth", authRouter);
 //This function is to ensure the database connection happens before the server starts listening
 const startServer = async () => {
   await connectToDatabase();
-
+  await webToon.create({
+    Name: "wt1",
+    Genre: "g1",
+    Creator: "c1",
+    img_url: "i1",
+    short_description: "...",
+  });
   app.listen(PORT, () => {
     console.log(`Server listening on port: ${PORT}`);
   });

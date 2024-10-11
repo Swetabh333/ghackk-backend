@@ -88,5 +88,10 @@ router.post("/login", async (req: Request, res: Response) => {
 router.get("/verify", authMiddleware, (req, res) => {
   res.send("verified");
 });
-
+// This endpoint is for logout
+router.get("/logout", authMiddleware, (req: Request, res: Response) => {
+  res
+    .cookie("token", "", { httpOnly: true, sameSite: "none", secure: true })
+    .send();
+});
 export default router;
