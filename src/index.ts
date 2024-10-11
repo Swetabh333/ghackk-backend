@@ -2,6 +2,7 @@ import express, { Application, Request, Response } from "express";
 import cors, { CorsOptions } from "cors";
 import dotenv from "dotenv";
 import connectToDatabase from "./db/mongodb";
+import authRouter from "./router/authRouter";
 
 //For being able to read env files.
 dotenv.config();
@@ -28,6 +29,8 @@ app.options("*", cors(corsOptions));
 app.get("/ping", (req: Request, res: Response) => {
   res.send("pong");
 });
+
+app.use("/auth", authRouter);
 
 //This function is to ensure the database connection happens before the server starts listening
 const startServer = async () => {

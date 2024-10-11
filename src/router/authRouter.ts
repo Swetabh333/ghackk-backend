@@ -2,6 +2,7 @@ import express, { Router, Request, Response } from "express";
 import User from "../schema/userSchema";
 import bcrypt from "bcryptjs";
 import { check, validationResult } from "express-validator";
+import jwt from "jsonwebtoken";
 
 //This router will be used for authentication i.e. signup and login.
 const router: Router = express.Router();
@@ -49,6 +50,39 @@ router.post(
 
 //This endpoint will be used for login with JWT for authentication.
 
-router.post("/login", async (req: Request, res: Response) => {});
+router.post("/login", async (req: Request, res: Response) => {
+  const { username, password } = req.body;
+  const findUser = await User.findOne({ username });
+  if (!findUser) {
+    res.status(400).json({ error: "User does not exist" });
+    return;
+  }
+  //If user exists sign the user in and send a jwt token
+  if (await bcrypt.compare(password, findUser.password as string)) {
+    const token = jwt.sign(
+      {
+        id: findUser._id,
+      },
+      process.env.JWT_SECRET as string,
+    );
+    res
+      .status(200)
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        maxAge: 12 * 60 * 60 * 1000, //12 hours
+      })
+      .json({
+        message: "Logged in",
+      });
+    return;
+  } else {
+    res.status(400).json({ error: "User and password do not match" });
+    return;
+  }
+});
+
+// This endpoint is to check if a user is already logged in
 
 export default router;
