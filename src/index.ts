@@ -19,8 +19,28 @@ app.use(express.json());
 app.use(cookieParser());
 
 //for added security to avoid cross site attacks.
+const allowedOrigins = [
+  process.env.FRONTEND_URL, // Main frontend
+  // Add additional preview domains if needed
+  /^https:\/\/ghackk-frontend.*\.vercel\.app$/, // Regex to match any preview domains
+];
+
 const corsOptions: CorsOptions = {
-  origin: process.env.FRONTEND_URL,
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin || allowedOrigins.some((allowedOrigin) => {
+      if (typeof allowedOrigin === 'string') {
+        return allowedOrigin === origin;
+      } else if (allowedOrigin instanceof RegExp) {
+        return allowedOrigin.test(origin);
+      }
+      return false;
+    })) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ["GET", "POST"],
   credentials: true,
   allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept",
