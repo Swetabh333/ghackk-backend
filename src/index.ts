@@ -4,8 +4,7 @@ import dotenv from "dotenv";
 import connectToDatabase from "./db/mongodb";
 import authRouter from "./router/authRouter";
 import cookieParser from "cookie-parser";
-import webToon from "./schema/webtoonSchema";
-
+import webtoonRouter from "./router/popularRouter";
 //For being able to read env files.
 dotenv.config();
 
@@ -21,7 +20,7 @@ app.use(cookieParser());
 
 //for added security to avoid cross site attacks.
 const corsOptions: CorsOptions = {
-  origin: "*",
+  origin: process.env.FRONTEND_URL,
   methods: ["GET", "POST"],
   credentials: true,
   allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept",
@@ -36,7 +35,7 @@ app.get("/ping", (req: Request, res: Response) => {
 });
 
 app.use("/auth", authRouter);
-
+app.use("/webtoons", webtoonRouter);
 //This function is to ensure the database connection happens before the server starts listening
 const startServer = async () => {
   await connectToDatabase();

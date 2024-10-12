@@ -71,7 +71,7 @@ router.post("/login", async (req: Request, res: Response) => {
       .cookie("token", token, {
         httpOnly: true,
         secure: true,
-        sameSite: "none",
+        sameSite: "lax",
         maxAge: 12 * 60 * 60 * 1000, //12 hours
       })
       .json({
@@ -86,11 +86,12 @@ router.post("/login", async (req: Request, res: Response) => {
 
 // This endpoint is to check if a user is already logged in
 router.get("/verify", authMiddleware, (req, res) => {
-  res.send("verified");
+  res.status(200).send("verified");
 });
 // This endpoint is for logout
 router.get("/logout", authMiddleware, (req: Request, res: Response) => {
   res
+    .status(200)
     .cookie("token", "", { httpOnly: true, sameSite: "none", secure: true })
     .send();
 });

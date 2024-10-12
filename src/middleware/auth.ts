@@ -7,7 +7,6 @@ const authMiddleware = async (
   next: NextFunction,
 ) => {
   const token = req.cookies.token; // Get token from cookies
-
   if (!token) {
     // If no token is present, user is not logged in
     res.status(401).json({ error: "Not authenticated" });
