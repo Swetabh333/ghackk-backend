@@ -71,7 +71,7 @@ router.post("/login", async (req: Request, res: Response) => {
       .cookie("token", token, {
         httpOnly: true,
         secure: true,
-        sameSite: "lax",
+        sameSite: "none",
         maxAge: 12 * 60 * 60 * 1000, //12 hours
       })
       .json({
@@ -94,5 +94,5 @@ router.get("/logout", authMiddleware, (req: Request, res: Response) => {
     .status(200)
     .cookie("token", "", { httpOnly: true, sameSite: "none", secure: true })
     .send();
-});
+	});
 export default router;
