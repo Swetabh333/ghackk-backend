@@ -20,7 +20,7 @@ app.use(cookieParser());
 
 //for added security to avoid cross site attacks.
 const corsOptions: CorsOptions = {
-  origin: process.env.FRONTEND_URL,
+  origin: "*",
   methods: ["GET", "POST"],
   credentials: true,
   allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept",
