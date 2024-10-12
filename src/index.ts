@@ -46,8 +46,8 @@ const corsOptions: CorsOptions = {
   allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept",
 };
 
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+app.use(cors());
+app.options("*", cors());
 
 // Implementing a ping endpoint for checking if the server is working.
 app.get("/ping", (req: Request, res: Response) => {
