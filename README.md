@@ -17,7 +17,6 @@ Put the following inside the env file.
 MONGODB_URI=<your_mongofb_connection_string>/<your_database_name>
 JWT_SECRET=<your_jwt_secret>
 FRONTEND_URL=<your_frontend_url>
-
 ```
 If you're cloning and running the frontend for this [project](https://github.com/Swetabh333/ghackk-frontend) from my repository it should be `http://localhost:3001`
 
